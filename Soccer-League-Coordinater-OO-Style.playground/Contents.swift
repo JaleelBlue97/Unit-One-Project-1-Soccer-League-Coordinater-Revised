@@ -184,7 +184,8 @@ func sortByExperience(from players: [[String : String]] ) -> ([[String : String]
  a tuple containing three arrays each representing a team made from the players, such
  that each team contains the same number of experienced players
  */
-func makeTeamFrom(_ experienced: [[String : String]] , _ inexperienced: [[String : String]]) -> ([[String : String]], [[String : String]],
+func makeTeamFrom(_ experienced: [[String : String]] , _ inexperienced: [[String : String]],
+                  numberOfTeams: Int) -> ([[String : String]], [[String : String]],
     [[String : String]]){
         
         let sortedExperienced = sortPlayersByHeight(players: experienced)
@@ -194,19 +195,27 @@ func makeTeamFrom(_ experienced: [[String : String]] , _ inexperienced: [[String
         var dragons: [[String: String]] = []
         var raptors: [[String: String]] = []
         
-        var teamSwitch : Int = -1 /*-1, 0, and 1 represent sharks, dragons and raptors
-         respectively
-         */
-        for player in sortedExperienced {
+        let players = [sharks, dragons, raptors]
+        
+      /*  var teamSwitch : Int = -1 -1, 0, and 1 represent sharks, dragons and raptors
+         respectively */
+        
+    /*    var addSharkPlayer = true
+        var addDragonPlayer = false
+        var addRaptorPlayer = false */
+        
+      /*  for player in sortedExperienced {
             switch teamSwitch {
             case -1:sharks.append(player); teamSwitch = 0
             case 0: dragons.append(player); teamSwitch = 1
             case 1: raptors.append(player); teamSwitch = -1
             default: teamSwitch = -1
                 
-            } }
+            } } */
         
-        var index = sortedInExperienced.count - 1
+       // var distributeCount = 0
+        
+     /*  var index = sortedInExperienced.count - 1
         for _ in sortedInExperienced {
             switch teamSwitch {
             case -1:sharks.append(sortedInExperienced[index]); teamSwitch = 0 ; index -= 1
@@ -214,7 +223,36 @@ func makeTeamFrom(_ experienced: [[String : String]] , _ inexperienced: [[String
             case 1: raptors.append(sortedInExperienced[index]); teamSwitch = -1; index -= 1
             default: teamSwitch = -1
                 
-            } }
+            } } */
+        
+        for index in 0..<sortedExperienced.count{
+            if index % players.count == 0 {
+                sharks.append(sortedExperienced[index])
+               // sharks.append(sortedInExperienced[(sortedInExperienced.count - 1) - index])
+            }
+            else if index % players.count == 1 {
+                dragons.append(sortedExperienced[index])
+               // dragons.append(sortedInExperienced[(sortedInExperienced.count - 1) - index])
+            }
+            else if index % players.count > 1 {
+                raptors.append(sortedExperienced[index])
+            }
+        }
+        
+        var index = sortedInExperienced.count - 1
+        for _ in 0..<sortedInExperienced.count {
+            if index % players.count == 0 {
+                raptors.append(sortedInExperienced[index])
+            }
+            else if index % players.count == 1 {
+                dragons.append(sortedInExperienced[index])
+            }
+            else if index % players.count > 1 {
+                sharks.append(sortedInExperienced[index])
+            }
+            
+            index -= 1
+        }
         
         sharks.append(["Average Height" : String(getAverageHeight(from: sharks))])
         dragons.append(["Average Height" : String(getAverageHeight(from: dragons))])
@@ -275,7 +313,7 @@ inExperiencedPlayers = sortedPlayerPool.1
 // of using the function makeTeam which acts like a method
 // that would reference three fields in the class each holding
 // a different team name and assigns players to those teams
-let teams = makeTeamFrom( experiencedPlayers, inExperiencedPlayers)
+let teams = makeTeamFrom( experiencedPlayers, inExperiencedPlayers, numberOfTeams: 3)
 sharks = teams.0
 dragons = teams.1
 raptors = teams.2
