@@ -197,48 +197,22 @@ func makeTeamFrom(_ experienced: [[String : String]] , _ inexperienced: [[String
         
         let players = [sharks, dragons, raptors]
         
-      /*  var teamSwitch : Int = -1 -1, 0, and 1 represent sharks, dragons and raptors
-         respectively */
-        
-    /*    var addSharkPlayer = true
-        var addDragonPlayer = false
-        var addRaptorPlayer = false */
-        
-      /*  for player in sortedExperienced {
-            switch teamSwitch {
-            case -1:sharks.append(player); teamSwitch = 0
-            case 0: dragons.append(player); teamSwitch = 1
-            case 1: raptors.append(player); teamSwitch = -1
-            default: teamSwitch = -1
-                
-            } } */
-        
-       // var distributeCount = 0
-        
-     /*  var index = sortedInExperienced.count - 1
-        for _ in sortedInExperienced {
-            switch teamSwitch {
-            case -1:sharks.append(sortedInExperienced[index]); teamSwitch = 0 ; index -= 1
-            case 0: dragons.append(sortedInExperienced[index]); teamSwitch = 1; index -= 1
-            case 1: raptors.append(sortedInExperienced[index]); teamSwitch = -1; index -= 1
-            default: teamSwitch = -1
-                
-            } } */
-        
         for index in 0..<sortedExperienced.count{
             if index % players.count == 0 {
                 sharks.append(sortedExperienced[index])
-               // sharks.append(sortedInExperienced[(sortedInExperienced.count - 1) - index])
             }
             else if index % players.count == 1 {
                 dragons.append(sortedExperienced[index])
-               // dragons.append(sortedInExperienced[(sortedInExperienced.count - 1) - index])
             }
             else if index % players.count > 1 {
                 raptors.append(sortedExperienced[index])
             }
         }
         
+        // iterates through sortedInExperienced backwards so that the shortest
+        // inexperienced players, are first assigned to sharks then dragons, then
+        // raptors. so that the difference in the average heigth between the sharks and raptors
+        // may be mitigated
         var index = sortedInExperienced.count - 1
         for _ in 0..<sortedInExperienced.count {
             if index % players.count == 0 {
